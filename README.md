@@ -2,8 +2,8 @@ NowplayingSharePage
 
 Description:
 Gather music information from music player and share it with cover image.
-You can see the DEMO here: http://goo.gl/ARsGB
-You can see the user document here: http://music.wayshine.us/readme_en.html
+You can see the DEMO here: http://goo.gl/ARsGB .
+You can see the user document here: http://music.wayshine.us/readme_en.html .
 
 Function:
 Catch music detail from some music player like foobar2000, itunes, .etc;
