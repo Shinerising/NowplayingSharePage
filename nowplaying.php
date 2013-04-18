@@ -7,7 +7,6 @@
 
 	//set the timezone here
 	date_default_timezone_set('Asia/Shanghai');
-	
     header("Content-Type:text/html; charset=utf-8");
 	
 	$album = $_GET["album"];
@@ -18,8 +17,22 @@
 	$c = $_GET["c"];
 	$s = $_GET["s"];
 	$from = $_GET["from"];
+	$ds = $_GET["d"];
 	
 	$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"];
+	
+	//Url
+		$tweet=urldecode("%E2%99%AB") . ' ' . stripslashes($title) . ' - ' . stripslashes($artist)	. ' [' . stripslashes($album) . ']';
+		$url_arr=parse_url($url);
+		parse_str($url_arr[query],$arr);
+		$arr[s]='3';
+		$arr[d]='0';
+		$turl=$url_arr[host].$url_arr[path].'?'.http_build_query($arr);
+		$gurl=addslashes($turl);
+		$gurl='http://'.$gurl;
+		$turl=urlencode($turl);
+		$surl=file_get_contents("http://is.gd/create.php?format=simple&url=$turl");
+		$turl='http://'.$turl;
 	
 	//create new database
 	if(!file_exists("music.db")){
@@ -127,6 +140,7 @@
 	<meta name="title" property="og:title" content="<?php echo urldecode("%E2%99%AB") ?> NowPlaying - <?php echo stripslashes($title) ?>" />
 	<meta name="description" property="og:description" content='<?php echo stripslashes($title) ?> - <?php echo stripslashes($artist) ?> [<?php echo stripslashes($album) ?>]' />
     <link rel="stylesheet" type="text/css" href="<?php echo $csslink ?>" media="screen" />
+<?php if($ds==1)echo '<script type="text/javascript">window.open("https://plus.google.com/u/0/share?url='.$turl.'")</script>'; ?>
 	<script type="text/javascript">
 	var cc = <?php echo $c ?>;
 	String.prototype.changeQuery = function(name,value){
@@ -241,16 +255,7 @@
 		
 		//share button for social
 		if($s!=1){
-		$tweet=urldecode("%E2%99%AB") . ' ' . stripslashes($title) . ' - ' . stripslashes($artist)	. ' [' . stripslashes($album) . ']';
-		$url_arr=parse_url($url);
-		parse_str($url_arr[query],$arr);
-		$arr[s]='3';
-		$turl=$url_arr[host].$url_arr[path].'?'.http_build_query($arr);
-		$gurl=addslashes($turl);
-		$gurl='http://'.$gurl;
-		$turl=urlencode($turl);
-		$surl=file_get_contents("http://is.gd/create.php?format=simple&url=$turl");
-		$turl='http://'.$turl;
+		
 				
 echo <<< eod
 		<div id="share1" data-href="$gurl" >
